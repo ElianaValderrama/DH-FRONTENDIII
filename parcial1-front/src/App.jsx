@@ -17,21 +17,26 @@ function App() {
     setNamePet(event.target.value)
   }
 
-  const validKindPet = (kindPet, namePet) => {
+  const validKindPet = (kindPet) => {
     const withOutSpaceKind = kindPet.trim();
-    const withOutSpaceName = namePet.trim();
     if (withOutSpaceKind.length >= 3) {
       return true
     } else {
       setErrorSelect("Por favor chequea que la información sea correcta. Tipo de mascota muy corto");
       return false;
     }
+
+  }
+
+  const validNamePet = (namePet) => {
+    const withOutSpaceName = namePet.trim();
     if (withOutSpaceName.length >= 6) {
       return true
     } else {
       setErrorSelect("Por favor chequea que la información sea correcta. Nombre de mascota muy corto");
       return false;
     }
+
   }
 
   const complepleteInput = (kindPet, namePet) => {
@@ -46,11 +51,12 @@ function App() {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const isKindValid = validKindPet(kindPet, namePet);
+    const isKindValid = validKindPet(kindPet);
+    const isNameValid = validNamePet(namePet);
 
     const isCompleteInput = complepleteInput(kindPet, namePet);
 
-    if (isKindValid && isCompleteInput) {
+    if (isKindValid && isNameValid && isCompleteInput) {
       setSend(true);
       setErrorSelect("")
     }
@@ -63,7 +69,9 @@ function App() {
     <div className="App">
       <h1>Cuentanos mas de tu mascota</h1>
       <form onSubmit={handleSubmit}>
+        <label>Tipo de mascota</label>
         <input type="text" placeholder='Digita el tipo de mascota' value={kindPet} onChange={onChangeKindPet} />
+        <label>Nombre de mascota</label>
         <input type="text" placeholder='Digita el nombre de la mascota' value={namePet} onChange={onChangeNamePet} />
         <input type="submit" value="Imprimir mascota"></input>
       </form>
